@@ -1,9 +1,9 @@
+import 'package:bookbytes/shared/ServerConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-import 'package:bookbytes/model/config.dart';
 import 'UserLogin.dart';
 
 class UserRegistrationPage extends StatefulWidget {
@@ -14,25 +14,20 @@ class UserRegistrationPage extends StatefulWidget {
 class _UserRegistrationPageState extends State<UserRegistrationPage> {
   bool _termsAndConditionsAccepted = false;
   late String _eulaContent; // Variable to store the EULA content
-  late TextEditingController _passwordController;
-  late TextEditingController _confirmPasswordController;
-  late TextEditingController _emailController;
-  late TextEditingController _contactController;
-  late TextEditingController _usernameController;
+  late TextEditingController _passwordController = TextEditingController();
+  late TextEditingController _confirmPasswordController = TextEditingController();
+  late TextEditingController _emailController = TextEditingController();
+  late TextEditingController _contactController = TextEditingController();
+  late TextEditingController _usernameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     // Load the EULA content when the widget is initialized
     _loadEULA();
-    _passwordController = TextEditingController();
-    _confirmPasswordController = TextEditingController();
-    _emailController = TextEditingController();
-    _contactController = TextEditingController();  // Initialize _contactController
-    _usernameController = TextEditingController();
   }
 
-  Future<void> _loadEULA() async {
+  void _loadEULA() async {
     // Use rootBundle to load the EULA content from the assets file
     final eulaPath = 'assets/eula.txt'; // Update the path to your EULA file
     _eulaContent = await rootBundle.loadString(eulaPath);
@@ -259,7 +254,12 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
   }
 
   // Function to register the user
-  Future<void> _registerUser() async {
+  void _registerUser(){
+    String _email = _emailController.text;
+    String _contact= _contactController.text;
+    String _username = _usernameController.text;
+    String _password = _passwordController.text;
+
     // Validate user data
     if (!_isValidEmailFormat()) {
       _showErrorMessage('Please enter a valid email.');
@@ -272,33 +272,35 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
       return;
     }
 
-    // Proceed to register user if data is valid
-    try {
-      final response = await http.post(
-        Uri.parse('${Config.server}/server/register.php'), // Replace with your server URL
-        body: {
-          'email': _emailController.text,
-          'contact': _contactController.text,
-          'username': _usernameController.text,
-          'password': _passwordController.text,
-        },
-      );
-
+    http.post(
+    Uri.parse('${ServerConfig.server}/bookbytes/php/register.php'), // Change this to your server URL
+    body: {
+      'email': _email,
+      'contact': _contact,
+      'username': _username,
+      'password': _password,
+    },).then((response) {
       if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        if (result['status'] == 'success') {
+        var data = jsonDecode(response.body);
+        print(data);
+        if (data['status'] == "success") {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Registration Success"),
+            backgroundColor: Colors.green,
+          ));
           _showSuccessMessage();
         } else {
-          _showErrorMessage(result['message']);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Registration Failed"),
+            backgroundColor: Colors.red,
+          ));
         }
-      } else {
-        _showErrorMessage('HTTP Error: ${response.statusCode}');
       }
-    } catch (e) {
-      _showErrorMessage('Error: $e');
-    }
+    });
+
   }
 }
+  
 
 
 
