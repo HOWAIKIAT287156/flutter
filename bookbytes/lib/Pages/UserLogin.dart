@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:bookbytes/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookbytes/Pages/MainPage.dart';
 import 'package:bookbytes/UserHandling.dart/ForgotPass.dart';
 import 'package:bookbytes/shared/ServerConfig.dart';
@@ -7,9 +8,22 @@ import 'package:flutter/material.dart';
 import 'UserRegis.dart'; 
 import 'package:http/http.dart' as http;
 
-class UserLoginPage extends StatelessWidget {
+class UserLoginPage extends StatefulWidget {
+  @override
+  _UserLoginPageState createState() => _UserLoginPageState();
+}
+
+class _UserLoginPageState extends State<UserLoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool rememberMe = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load saved email and password if "Remember Me" was selected previously
+    _loadRememberMe();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +31,7 @@ class UserLoginPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Login',
-          style: TextStyle(color: Colors.blueGrey), // Set the color of the text
+          style: TextStyle(color: Colors.blueGrey),
         ),
         backgroundColor: Color.fromRGBO(200, 242, 255, 1),
       ),
@@ -27,7 +41,7 @@ class UserLoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Username TextField
+              // Email TextField
               Container(
                 padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
@@ -43,7 +57,6 @@ class UserLoginPage extends StatelessWidget {
                   maxLength: 30,
                 ),
               ),
-              SizedBox(height: 16),
 
               // Password TextField
               Container(
@@ -61,6 +74,22 @@ class UserLoginPage extends StatelessWidget {
                   ),
                   maxLength: 30,
                 ),
+              ),
+
+              // "Remember Me" Checkbox
+              Row(
+                children: [
+                  Checkbox(
+                    value: rememberMe,
+                    onChanged: (value) {
+                      setState(() {
+                        rememberMe = value!;
+                        _saveRememberMe();
+                      });
+                    },
+                  ),
+                  Text('Remember Me'),
+                ],
               ),
 
               SizedBox(height: 16),
@@ -129,7 +158,29 @@ class UserLoginPage extends StatelessWidget {
     );
   }
 
-  
+  void _loadRememberMe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      rememberMe = prefs.getBool('rememberMe') ?? false;
+      if (rememberMe) {
+        emailController.text = prefs.getString('email') ?? '';
+        passwordController.text = prefs.getString('password') ?? '';
+      }
+    });
+  }
+
+  // Save "Remember Me" state, email, and password
+  void _saveRememberMe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('rememberMe', rememberMe);
+    if (rememberMe) {
+      prefs.setString('email', emailController.text);
+      prefs.setString('password', passwordController.text);
+    } else {
+      prefs.remove('email');
+      prefs.remove('password');
+    }
+  }
 
   bool isValidEmail(String email) {
     String emailRegex = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
@@ -151,13 +202,13 @@ class UserLoginPage extends StatelessWidget {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
-          //User user = User.fromJson(data['data']);
+          User user = User.fromJson(data['data']);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Success"),
             backgroundColor: Colors.green,
           ));
           Navigator.push(context,
-              MaterialPageRoute(builder: (content) =>  MainPage()));
+              MaterialPageRoute(builder: (content) =>  MainPage(userdata:user)));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Failed"),

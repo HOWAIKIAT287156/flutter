@@ -1,5 +1,11 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:bookbytes/models/user.dart';
+import 'package:bookbytes/shared/ServerConfig.dart';
 import 'package:flutter/material.dart';
-import 'MainPage.dart'; // Import the main page
+import 'package:shared_preferences/shared_preferences.dart';
+import 'MainPage.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -9,49 +15,42 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    super.initState();
-    // Add a delay of 3 seconds before navigating to the main page
-    Future.delayed(Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-      );
-    });
-  }
+  super.initState();
+  checkandlogin(); 
+}
 
   @override
   Widget build(BuildContext context) {
-    // Your splash screen UI code goes here
     return Scaffold(
-      backgroundColor: Color.fromRGBO(200, 242, 255, 1), // Set the background color
+      backgroundColor: Color.fromRGBO(200, 242, 255, 1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logo.jpg', // Adjust the path based on your project structure
-              height: 200, // Adjust the height of the image
-              width: 200, // Adjust the width of the image
+              'assets/images/logo.jpg',
+              height: 200,
+              width: 200,
             ),
-            SizedBox(height: 20), // Add some space between image and text
+            SizedBox(height: 20),
             Text(
               'BookBytes',
               style: TextStyle(
-                color: Colors.blue, // Set the text color
-                fontSize: 24, // Set the text size
-                fontWeight: FontWeight.bold, // Set the text weight
+                color: Colors.blue,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20), // Add some space between text and loading indicator
+            SizedBox(height: 20),
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.grey), // Set the loading icon color
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
             ),
-            SizedBox(height: 10), // Add some space between loading indicator and text
+            SizedBox(height: 10),
             Text(
               'Good Things Take Time',
               style: TextStyle(
-                color: Colors.blue, // Set the text color
-                fontSize: 16, // Set the text size
+                color: Colors.blue,
+                fontSize: 16,
               ),
             ),
           ],
@@ -59,7 +58,63 @@ class _SplashPageState extends State<SplashPage> {
       ),
     );
   }
+  checkandlogin() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String email = prefs.getString('email') ?? '';
+  String password = prefs.getString('password') ?? '';
+  bool rem = prefs.getBool('rem') ?? false;
+
+  if (rem) {
+    try {
+      final response = await http.post(
+        Uri.parse("${ServerConfig.server}/bookbytes/php/userlogin.php"),
+        body: {"email": email, "password": password},
+      );
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+
+        if (data['status'] == "success") {
+          User user = User.fromJson(data['data']);
+          Timer(
+            const Duration(seconds: 3),
+            () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (content) => MainPage(
+                  userdata: user,
+                ),
+              ),
+            ),
+          );
+        } else {
+           User user = User(
+                userid: "0",
+                useremail: "unregistered@email.com",
+                username: "Unregistered",
+                userdate: "",
+                userpassword: "");
+            Timer(
+                const Duration(seconds: 3),
+                () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (content) => MainPage(
+                              userdata: user,
+                            ))));
+        }
+      }
+    } catch (error) {
+      // Handle errors that occurred during the HTTP request
+      // You may want to display an error message or take appropriate action
+    }
+  }
 }
+}
+
+
+
+
 
 
 

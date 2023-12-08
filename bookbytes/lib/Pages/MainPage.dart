@@ -1,18 +1,26 @@
+import 'package:bookbytes/models/user.dart';
 import 'package:bookbytes/shared/drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'CartPage.dart';
 import 'UserProfilePage.dart';
 
+class MainPage extends StatefulWidget {
+  final User userdata;
+  const MainPage({super.key, required this.userdata});
+  
+  @override
+  _MainPageState createState() => _MainPageState();
+}
 
-class MainPage extends StatelessWidget {
+class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         title: Text(
+        title: Text(
           'BookBytes',
-          style: TextStyle(color: Colors.blueGrey), // Set the color of the text
+          style: TextStyle(color: Colors.blueGrey),
         ),
         backgroundColor: Color.fromRGBO(200, 242, 255, 1),
       ),
@@ -53,10 +61,10 @@ class MainPage extends StatelessWidget {
                     icon: Icon(Icons.shopping_cart),
                     iconSize: 50.0,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CartPage()), // Navigate to CartPage
-                      );
+                      //Navigator.push(
+                        //context,
+                        //MaterialPageRoute(builder: (context) => CartPage()),
+                      //);
                     },
                   ),
                 ),
@@ -67,10 +75,10 @@ class MainPage extends StatelessWidget {
                     icon: Icon(Icons.person),
                     iconSize: 40.0,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => UserProfilePage()), // Navigate to UserProfilePage
-                      );
+                      //Navigator.push(
+                        //context,
+                        //MaterialPageRoute(builder: (context) => UserProfilePage()),
+                      //);
                     },
                   ),
                 ),
@@ -82,6 +90,7 @@ class MainPage extends StatelessWidget {
     );
   }
 }
+
 
 
 

@@ -1,12 +1,17 @@
 import 'package:bookbytes/Pages/UserLogin.dart';
 import 'package:flutter/material.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
+  @override
+  _AppDrawerState createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Color.fromRGBO(200, 242, 255, 1), // Adjust the color for the whole background
+        color: Color.fromRGBO(200, 242, 255, 1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -20,30 +25,29 @@ class AppDrawer extends StatelessWidget {
                       'Navigation',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0, // Adjust the font size
-                        color: Colors.blueGrey, // Adjust the color
+                        fontSize: 20.0,
+                        color: Colors.blueGrey,
                       ),
                     ),
                   ),
                   IconButton(
                     icon: Icon(Icons.close),
-                    color: Colors.black, // Adjust the color
+                    color: Colors.black,
                     onPressed: () {
-                      Navigator.pop(context); // Close the drawer
+                      Navigator.pop(context);
                     },
                   ),
                 ],
               ),
             ),
             UserAccountsDrawerHeader(
-              accountName: Text('Guest'), // Replace with the user's name
-              accountEmail: Text('Email'), // Replace with the user's email
+              accountName: Text('Guest'),
+              accountEmail: Text('Email'),
               currentAccountPicture: CircleAvatar(
-                // Add user image here
                 backgroundColor: Colors.white,
                 child: Icon(
                   Icons.person,
-                  color: Colors.blueGrey, // Adjust the color
+                  color: Colors.blueGrey,
                 ),
               ),
             ),
@@ -51,8 +55,8 @@ class AppDrawer extends StatelessWidget {
               title: Text(
                 'User Login',
                 style: TextStyle(
-                  color: Colors.blueGrey, // Set the color of the text
-                  fontSize: 16.0, // Adjust the font size
+                  color: Colors.blueGrey,
+                  fontSize: 16.0,
                 ),
               ),
               onTap: () {
