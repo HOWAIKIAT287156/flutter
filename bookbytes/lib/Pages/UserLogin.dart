@@ -1,9 +1,16 @@
+import 'dart:convert';
+
+import 'package:bookbytes/Pages/MainPage.dart';
 import 'package:bookbytes/UserHandling.dart/ForgotPass.dart';
+import 'package:bookbytes/shared/ServerConfig.dart';
 import 'package:flutter/material.dart';
 import 'UserRegis.dart'; 
-
+import 'package:http/http.dart' as http;
 
 class UserLoginPage extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,41 +21,45 @@ class UserLoginPage extends StatelessWidget {
         ),
         backgroundColor: Color.fromRGBO(200, 242, 255, 1),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Username TextField
               Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.grey[200],
                 ),
                 child: TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
-                    hintText: 'Username',
+                    hintText: 'Email',
                     border: InputBorder.none,
                   ),
+                  maxLength: 30,
                 ),
               ),
               SizedBox(height: 16),
 
               // Password TextField
               Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.grey[200],
                 ),
                 child: TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Password',
                     border: InputBorder.none,
                   ),
+                  maxLength: 30,
                 ),
               ),
 
@@ -58,6 +69,19 @@ class UserLoginPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // Add your login logic here
+                  if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+                    // Display a message if email or password is empty
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Email and password are required.')),
+                    );
+                  } else if (!isValidEmail(emailController.text)) {
+                    // Display a message if email format is invalid
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Invalid email format.')),
+                    );
+                  } else {
+                    _userlogin(context);
+                  }
                 },
                 child: Text('Login'),
               ),
@@ -104,6 +128,47 @@ class UserLoginPage extends StatelessWidget {
       ),
     );
   }
+
+  
+
+  bool isValidEmail(String email) {
+    String emailRegex = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    RegExp regex = RegExp(emailRegex);
+    return regex.hasMatch(email);
+  }
+
+  void _userlogin(BuildContext context){
+    String _email = emailController.text;
+    String _password = passwordController.text;
+
+  
+
+    http.post(
+        Uri.parse("${ServerConfig.server}/bookbytes/php/userlogin.php"),
+        body: {"email": _email, "password": _password}).then((response) {
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['status'] == "success") {
+          //User user = User.fromJson(data['data']);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Login Success"),
+            backgroundColor: Colors.green,
+          ));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (content) =>  MainPage()));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Login Failed"),
+            backgroundColor: Colors.red,
+          ));
+        }
+      }
+    });
+
+  }
+
 }
 
 void main() {

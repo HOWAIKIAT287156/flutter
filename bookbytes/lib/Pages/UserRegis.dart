@@ -43,7 +43,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
         ),
         backgroundColor: Color.fromRGBO(200, 242, 255, 1),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
