@@ -1,5 +1,5 @@
+import 'package:bookbytes/Pages/CartPage.dart';
 import 'package:bookbytes/Pages/MainPage.dart';
-import 'package:bookbytes/Pages/UserLogin.dart';
 import 'package:bookbytes/shared/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:bookbytes/models/user.dart';
@@ -15,6 +15,33 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
+  
+  void _confirmLogout() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Log Out'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _logout(); // Proceed with logout
+              },
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   
   void _logout() {
   // Reset user data to represent a guest
@@ -37,11 +64,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: Text('User Profile',
+        style: TextStyle(color: Colors.blueGrey),
+        ),
+        backgroundColor: Color.fromRGBO(200, 242, 255, 1),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: _logout,
+            icon: Icon(
+              Icons.exit_to_app,
+              color: Colors.blueGrey, // Change to your desired color
+            ),
+            onPressed: _confirmLogout,
           ),
         ],
       ),
@@ -111,11 +144,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
               icon: Icon(Icons.shopping_cart),
               iconSize: 50.0,
               onPressed: () {
-                // Handle shopping cart button press
+                Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => CartPage()),
+                       );
               },
             ),
             IconButton(
               icon: Icon(Icons.person),
+              color: Colors.grey,
               iconSize: 40.0,
               onPressed: () {
                 // Handle person icon button press

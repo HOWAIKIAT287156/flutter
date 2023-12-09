@@ -192,7 +192,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
               ),
               child: Text(
                 'Close',
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 14.0,color: Colors.blueGrey),
               ),
             ),
           ],
@@ -261,16 +261,28 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
     String _password = _passwordController.text;
 
     // Validate user data
-    if (!_isValidEmailFormat()) {
-      _showErrorMessage('Please enter a valid email.');
-      return;
-    } else if (!_isPasswordConfirmed()) {
-      _showErrorMessage('Confirm password is different from Password.');
-      return;
-    } else if (!_termsAndConditionsAccepted) {
-      _showErrorMessage('Registration requires your agreement.');
-      return;
-    }
+    if (_email.isEmpty) {
+    _showErrorMessage('Email is required.');
+    return;
+  } else if (_contact.isEmpty) {
+    _showErrorMessage('Contact is required.');
+    return;
+  } else if (_username.isEmpty) {
+    _showErrorMessage('Username is required.');
+    return;
+  } else if (_password.isEmpty) {
+    _showErrorMessage('Password is required.');
+    return;
+  } else if (!_isValidEmailFormat()) {
+    _showErrorMessage('Please enter a valid email.');
+    return;
+  } else if (!_isPasswordConfirmed()) {
+    _showErrorMessage('Confirm password does not match.');
+    return;
+  } else if (!_termsAndConditionsAccepted) {
+    _showErrorMessage('You must accept the terms and conditions to register.');
+    return;
+  }
 
     http.post(
     Uri.parse('${ServerConfig.server}/bookbytes/php/register.php'), // Change this to your server URL

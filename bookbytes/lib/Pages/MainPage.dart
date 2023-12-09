@@ -65,10 +65,10 @@ class _MainPageState extends State<MainPage> {
                     icon: Icon(Icons.shopping_cart),
                     iconSize: 50.0,
                     onPressed: () {
-                      // Navigator.push(
-                      // context,
-                      // MaterialPageRoute(builder: (context) => CartPage()),
-                      // );
+                       Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => CartPage()),
+                       );
                     },
                   ),
                 ),

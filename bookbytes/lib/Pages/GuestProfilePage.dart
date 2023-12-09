@@ -1,3 +1,4 @@
+import 'package:bookbytes/Pages/CartPage.dart';
 import 'package:bookbytes/Pages/MainPage.dart';
 import 'package:bookbytes/Pages/UserLogin.dart';
 import 'package:bookbytes/Pages/UserRegis.dart';
@@ -20,7 +21,10 @@ class _GuestProfilePageState extends State<GuestProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: Text('User Profile',
+        style: TextStyle(color: Colors.blueGrey),
+        ),
+        backgroundColor: Color.fromRGBO(200, 242, 255, 1),
       ),
       drawer: AppDrawer(
         page: "books",
@@ -42,7 +46,12 @@ class _GuestProfilePageState extends State<GuestProfilePage> {
                       ),
                     );
                   },
-                  child: Text('Sign In'),
+                  child: Text('Sign In',
+                  style: TextStyle(color: Colors.blueGrey),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(200, 242, 255, 1), // Button color
+                  ),
                 ),
                 SizedBox(width: 12.0),
                 ElevatedButton(
@@ -53,7 +62,12 @@ class _GuestProfilePageState extends State<GuestProfilePage> {
                       ),
                     );
                   },
-                  child: Text('Sign Up'),
+                  child: Text('Sign Up',
+                  style: TextStyle(color: Colors.blueGrey),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(200, 242, 255, 1), // Button color
+                  ),
                 ),
               ],
             ),
@@ -113,11 +127,15 @@ class _GuestProfilePageState extends State<GuestProfilePage> {
               icon: Icon(Icons.shopping_cart),
               iconSize: 50.0,
               onPressed: () {
-                // Handle shopping cart button press
+                Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => CartPage()),
+                       );
               },
             ),
             IconButton(
               icon: Icon(Icons.person),
+              color: Colors.grey,
               iconSize: 40.0,
               onPressed: () {
                 // Handle person icon button press
