@@ -21,7 +21,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
   @override
   void initState() {
     super.initState();
-    // Load saved email and password if "Remember Me" was selected previously
     _loadRememberMe();
   }
 
@@ -59,7 +58,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
               ),
 
               SizedBox(height: 16),
-              // Password TextField
+
               Container(
                 padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
@@ -77,7 +76,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                 ),
               ),
 
-              // "Remember Me" Checkbox
+            
               Row(
                 children: [
                   Checkbox(
@@ -95,10 +94,10 @@ class _UserLoginPageState extends State<UserLoginPage> {
 
               SizedBox(height: 16),
 
-              // Login Button
+              
               ElevatedButton(
                 onPressed: () {
-                  // Add your login logic here
+              
                   if (emailController.text.isEmpty || passwordController.text.isEmpty) {
                     // Display a message if email or password is empty
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -118,7 +117,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
 
               SizedBox(height: 16),
 
-              // Row for "Forgot password" and "Don't have an account?"
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -126,7 +125,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => UserRegistrationPage()), // Navigate to UserRegis.dart
+                        MaterialPageRoute(builder: (context) => UserRegistrationPage()), 
                       );
                     },
                     style: TextButton.styleFrom(
@@ -140,7 +139,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ForgotPasswordPage()), // Navigate to ForgotPass.dart
+                        MaterialPageRoute(builder: (context) => ForgotPasswordPage()), 
                       );
                     },
                     style: TextButton.styleFrom(
@@ -170,7 +169,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
     });
   }
 
-  // Save "Remember Me" state, email, and password
+  
   void _saveRememberMe() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('rememberMe', rememberMe);

@@ -1,5 +1,6 @@
 import 'package:bookbytes/shared/ServerConfig.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -34,6 +35,9 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -48,6 +52,15 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                'Screen Width: $screenWidth',
+                style: TextStyle(fontSize: 12.0, color: Colors.black),
+              ),
+              Text(
+                'Screen Height: $screenHeight',
+                style: TextStyle(fontSize: 12.0, color: Colors.black),
+              ),
+              
               TextField(
                 controller: _emailController,
                 style: TextStyle(fontSize: 15.0, color: Colors.black),
@@ -256,6 +269,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
     String _contact= _contactController.text;
     String _username = _usernameController.text;
     String _password = _passwordController.text;
+    String _confirmpassword = _confirmPasswordController.text;
 
     // Validate user data
     if (_email.isEmpty) {
@@ -270,7 +284,10 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
   } else if (_password.isEmpty) {
     _showErrorMessage('Password is required.');
     return;
-  } else if (!_isValidEmailFormat()) {
+  } else if (_confirmpassword.isEmpty) {
+    _showErrorMessage('Password is required.');
+    return;
+  }else if (!_isValidEmailFormat()) {
     _showErrorMessage('Please enter a valid email.');
     return;
   } else if (!_isPasswordConfirmed()) {

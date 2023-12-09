@@ -1,7 +1,7 @@
 <?php
 //error_reporting(0);
 if (!isset($_POST['email']) && !isset($_POST['contact']) && !isset($_POST['username']) && !isset($_POST['password'])) {
-    $response = array('status' => 'failed', 'data' => null,'test' => 'idk');
+    $response = array('status' => 'failed', 'data' => null,);
     sendJsonResponse($response);
     die();
 }

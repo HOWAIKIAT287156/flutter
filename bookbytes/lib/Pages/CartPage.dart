@@ -19,8 +19,8 @@ class _CartPageState extends State<CartPage> {
         child: Text(
           'This feature is unavailable now, stay tuned!',
           style: TextStyle(
-            fontSize: 15.0, // Optional: Adjust the font size
-            fontWeight: FontWeight.bold, // Optional: Adjust the font weight
+            fontSize: 15.0, 
+            fontWeight: FontWeight.bold, 
           ),
         ),
       ),

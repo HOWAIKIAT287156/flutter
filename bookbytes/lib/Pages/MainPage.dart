@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'CartPage.dart';
 import 'UserProfilePage.dart';
-import 'GuestProfilePage.dart'; // Import the GuestProfilePage
+import 'GuestProfilePage.dart';
 
 class MainPage extends StatefulWidget {
   final User userdata;
@@ -31,13 +31,12 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Column(
         children: [
-          // Main Page Content
           Expanded(
             child: Center(
               child: Text('Main Page Content'),
             ),
           ),
-          // Container with Icon Buttons at the bottom
+          
           Container(
             padding: EdgeInsets.all(12.0),
             color: Color.fromRGBO(200, 242, 255, 1),
@@ -81,7 +80,6 @@ class _MainPageState extends State<MainPage> {
                     onPressed: () {
                       if (widget.userdata.useremail == "guest@gmail.com" &&
                           widget.userdata.username == "Guest") {
-                        // Navigate to GuestProfilePage if conditions match
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -89,7 +87,6 @@ class _MainPageState extends State<MainPage> {
                           ),
                         );
                       } else {
-                        // Navigate to UserProfilePage for other users
                         Navigator.push(
                           context,
                           MaterialPageRoute(

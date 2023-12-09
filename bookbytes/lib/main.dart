@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Pages/SplashPage.dart'; // Import the splash page
+import 'Pages/SplashPage.dart'; 
 
 void main() {
   runApp(MyApp());
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BookBytes',
-      home: SplashPage(), // Start with the splash page
+      home: SplashPage(), 
     );
   }
 }

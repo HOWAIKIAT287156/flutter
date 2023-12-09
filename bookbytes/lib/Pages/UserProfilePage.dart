@@ -3,7 +3,7 @@ import 'package:bookbytes/Pages/MainPage.dart';
 import 'package:bookbytes/shared/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:bookbytes/models/user.dart';
-// Import additional pages if necessary
+
 
 class UserProfilePage extends StatefulWidget {
   final User userdata;
@@ -26,14 +26,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                _logout(); // Proceed with logout
+                Navigator.of(context).pop(); 
+                _logout(); 
               },
               child: Text('Yes'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
               },
               child: Text('No'),
             ),
@@ -44,7 +44,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
   
   void _logout() {
-  // Reset user data to represent a guest
+ 
   User guestUserData = User(
     userid: "0",
     useremail: "guest@gmail.com",
@@ -54,7 +54,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     userpassword: "",
   );
 
-  // Navigate to the MainPage with the new guest user data
+  
   Navigator.pushReplacement(context,
     MaterialPageRoute(builder: (context) => MainPage(userdata: guestUserData)),
   );
@@ -72,7 +72,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           IconButton(
             icon: Icon(
               Icons.exit_to_app,
-              color: Colors.blueGrey, // Change to your desired color
+              color: Colors.blueGrey, 
             ),
             onPressed: _confirmLogout,
           ),
@@ -91,7 +91,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
             Center(
               child: CircleAvatar(
                 radius: 50.0,
-                // You can replace this with the user's actual avatar image
                 backgroundImage: AssetImage('assets/images/guest.jpg'),
               ),
             ),
@@ -100,7 +99,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 SizedBox(width: 30.0),
                 Icon(Icons.email),
-                SizedBox(width: 16.0), // Increased padding here
+                SizedBox(width: 16.0),
                 Text('Email: ${widget.userdata.useremail}'),
               ],
             ),
@@ -109,7 +108,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 SizedBox(width: 30.0),
                 Icon(Icons.person),
-                SizedBox(width: 16.0), // Increased padding here
+                SizedBox(width: 16.0), 
                 Text('Name: ${widget.userdata.username}'),
               ],
             ),
@@ -118,11 +117,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 SizedBox(width: 30.0),
                 Icon(Icons.phone),
-                SizedBox(width: 16.0), // Increased padding here
+                SizedBox(width: 16.0), 
                 Text('Contact: ${widget.userdata.usercontact}'),
               ],
             ),
-            // You can add more user information fields/icons here
+            
           ],
         ),
       ),

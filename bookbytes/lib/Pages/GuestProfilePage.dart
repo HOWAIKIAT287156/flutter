@@ -105,7 +105,7 @@ class _GuestProfilePageState extends State<GuestProfilePage> {
                 Text('Contact: ${widget.userdata.usercontact}'),
               ],
             ),
-            // Additional user information fields/icons can be added here
+            
           ],
         ),
       ),
