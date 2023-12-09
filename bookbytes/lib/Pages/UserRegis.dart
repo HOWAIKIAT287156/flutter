@@ -13,7 +13,7 @@ class UserRegistrationPage extends StatefulWidget {
 
 class _UserRegistrationPageState extends State<UserRegistrationPage> {
   bool _termsAndConditionsAccepted = false;
-  late String _eulaContent; // Variable to store the EULA content
+  late String _eulaContent; 
   late TextEditingController _passwordController = TextEditingController();
   late TextEditingController _confirmPasswordController = TextEditingController();
   late TextEditingController _emailController = TextEditingController();
@@ -23,13 +23,12 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
   @override
   void initState() {
     super.initState();
-    // Load the EULA content when the widget is initialized
     _loadEULA();
   }
 
   void _loadEULA() async {
-    // Use rootBundle to load the EULA content from the assets file
-    final eulaPath = 'assets/eula.txt'; // Update the path to your EULA file
+    
+    final eulaPath = 'assets/eula.txt'; 
     _eulaContent = await rootBundle.loadString(eulaPath);
   }
 
@@ -128,7 +127,6 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Show the EULA content in a dialog when the button is pressed
                       _showEULADialog(context);
                     },
                     child: Text(
@@ -166,7 +164,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
     );
   }
 
-  // Function to show the EULA content in a dialog
+
   void _showEULADialog(BuildContext context) {
     showDialog(
       context: context,
@@ -201,20 +199,19 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
     );
   }
 
-  // Function to validate email format
+ 
   bool _isValidEmailFormat() {
-    // Use a regular expression to check for a valid email format
     final emailRegex =
         RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
     return emailRegex.hasMatch(_emailController.text);
   }
 
-  // Function to check if password and confirm password match
+
   bool _isPasswordConfirmed() {
     return _passwordController.text == _confirmPasswordController.text;
   }
 
-  // Function to show a SnackBar with the provided message
+
   void _showErrorMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -224,7 +221,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
     );
   }
 
-  // Function to show a success message
+
   void _showSuccessMessage() {
     showDialog(
       context: context,
@@ -285,7 +282,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
   }
 
     http.post(
-    Uri.parse('${ServerConfig.server}/bookbytes/php/register.php'), // Change this to your server URL
+    Uri.parse('${ServerConfig.server}/bookbytes/php/register.php'), 
     body: {
       'email': _email,
       'contact': _contact,
