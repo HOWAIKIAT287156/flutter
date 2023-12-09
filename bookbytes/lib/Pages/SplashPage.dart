@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'MainPage.dart';
 
 class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
+
   @override
   _SplashPageState createState() => _SplashPageState();
 }
@@ -62,10 +64,10 @@ class _SplashPageState extends State<SplashPage> {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String email = prefs.getString('email') ?? '';
   String password = prefs.getString('password') ?? '';
-  bool rem = prefs.getBool('rem') ?? false;
+  bool rem = prefs.getBool('rememberMe') ?? false;
 
   if (rem) {
-    try {
+
       final response = await http.post(
         Uri.parse("${ServerConfig.server}/bookbytes/php/userlogin.php"),
         body: {"email": email, "password": password},
@@ -73,7 +75,7 @@ class _SplashPageState extends State<SplashPage> {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-
+        print(data);
         if (data['status'] == "success") {
           User user = User.fromJson(data['data']);
           Timer(
@@ -87,11 +89,14 @@ class _SplashPageState extends State<SplashPage> {
               ),
             ),
           );
-        } else {
+        }
+      }
+         }else {
            User user = User(
                 userid: "0",
-                useremail: "unregistered@email.com",
-                username: "Unregistered",
+                useremail: "guest@gmail.com",
+                usercontact: "###",
+                username: "Guest",
                 userdate: "",
                 userpassword: "");
             Timer(
@@ -104,13 +109,8 @@ class _SplashPageState extends State<SplashPage> {
                             ))));
         }
       }
-    } catch (error) {
-      // Handle errors that occurred during the HTTP request
-      // You may want to display an error message or take appropriate action
-    }
   }
-}
-}
+    
 
 
 

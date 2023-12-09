@@ -222,11 +222,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
 
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: UserLoginPage(),
-  ));
-}
 
 
 

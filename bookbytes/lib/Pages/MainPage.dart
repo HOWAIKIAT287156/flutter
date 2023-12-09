@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 
 import 'CartPage.dart';
 import 'UserProfilePage.dart';
+import 'GuestProfilePage.dart'; // Import the GuestProfilePage
 
 class MainPage extends StatefulWidget {
   final User userdata;
   const MainPage({super.key, required this.userdata});
-  
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -24,7 +25,10 @@ class _MainPageState extends State<MainPage> {
         ),
         backgroundColor: Color.fromRGBO(200, 242, 255, 1),
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        page: "books",
+        userdata: widget.userdata,
+      ),
       body: Column(
         children: [
           // Main Page Content
@@ -35,7 +39,7 @@ class _MainPageState extends State<MainPage> {
           ),
           // Container with Icon Buttons at the bottom
           Container(
-            padding: EdgeInsets.all(14.0),
+            padding: EdgeInsets.all(12.0),
             color: Color.fromRGBO(200, 242, 255, 1),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,10 +65,10 @@ class _MainPageState extends State<MainPage> {
                     icon: Icon(Icons.shopping_cart),
                     iconSize: 50.0,
                     onPressed: () {
-                      //Navigator.push(
-                        //context,
-                        //MaterialPageRoute(builder: (context) => CartPage()),
-                      //);
+                      // Navigator.push(
+                      // context,
+                      // MaterialPageRoute(builder: (context) => CartPage()),
+                      // );
                     },
                   ),
                 ),
@@ -75,10 +79,25 @@ class _MainPageState extends State<MainPage> {
                     icon: Icon(Icons.person),
                     iconSize: 40.0,
                     onPressed: () {
-                      //Navigator.push(
-                        //context,
-                        //MaterialPageRoute(builder: (context) => UserProfilePage()),
-                      //);
+                      if (widget.userdata.useremail == "guest@gmail.com" &&
+                          widget.userdata.username == "Guest") {
+                        // Navigate to GuestProfilePage if conditions match
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GuestProfilePage(userdata: widget.userdata),
+                          ),
+                        );
+                      } else {
+                        // Navigate to UserProfilePage for other users
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UserProfilePage(userdata: widget.userdata),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),
@@ -90,6 +109,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
 
 
 

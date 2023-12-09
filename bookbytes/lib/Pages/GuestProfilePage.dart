@@ -1,49 +1,26 @@
 import 'package:bookbytes/Pages/MainPage.dart';
 import 'package:bookbytes/Pages/UserLogin.dart';
+import 'package:bookbytes/Pages/UserRegis.dart';
 import 'package:bookbytes/shared/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:bookbytes/models/user.dart';
-// Import additional pages if necessary
 
-class UserProfilePage extends StatefulWidget {
+class GuestProfilePage extends StatefulWidget {
   final User userdata;
 
-  UserProfilePage({required this.userdata});
+  GuestProfilePage({required this.userdata});
 
   @override
-  _UserProfilePageState createState() => _UserProfilePageState();
+  _GuestProfilePageState createState() => _GuestProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
+class _GuestProfilePageState extends State<GuestProfilePage> {
   
-  void _logout() {
-  // Reset user data to represent a guest
-  User guestUserData = User(
-    userid: "0",
-    useremail: "guest@gmail.com",
-    usercontact: "###",
-    username: "Guest",
-    userdate: "",
-    userpassword: "",
-  );
-
-  // Navigate to the MainPage with the new guest user data
-  Navigator.pushReplacement(context,
-    MaterialPageRoute(builder: (context) => MainPage(userdata: guestUserData)),
-  );
-}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('User Profile'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: _logout,
-          ),
-        ],
       ),
       drawer: AppDrawer(
         page: "books",
@@ -54,11 +31,36 @@ class _UserProfilePageState extends State<UserProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                SizedBox(width: 110.0),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => UserLoginPage(),
+                      ),
+                    );
+                  },
+                  child: Text('Sign In'),
+                ),
+                SizedBox(width: 12.0),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => UserRegistrationPage(),
+                      ),
+                    );
+                  },
+                  child: Text('Sign Up'),
+                ),
+              ],
+            ),
             SizedBox(height: 25.0),
             Center(
               child: CircleAvatar(
                 radius: 50.0,
-                // You can replace this with the user's actual avatar image
                 backgroundImage: AssetImage('assets/images/guest.jpg'),
               ),
             ),
@@ -67,7 +69,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 SizedBox(width: 30.0),
                 Icon(Icons.email),
-                SizedBox(width: 16.0), // Increased padding here
+                SizedBox(width: 16.0),
                 Text('Email: ${widget.userdata.useremail}'),
               ],
             ),
@@ -76,7 +78,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 SizedBox(width: 30.0),
                 Icon(Icons.person),
-                SizedBox(width: 16.0), // Increased padding here
+                SizedBox(width: 16.0),
                 Text('Name: ${widget.userdata.username}'),
               ],
             ),
@@ -85,11 +87,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 SizedBox(width: 30.0),
                 Icon(Icons.phone),
-                SizedBox(width: 16.0), // Increased padding here
+                SizedBox(width: 16.0),
                 Text('Contact: ${widget.userdata.usercontact}'),
               ],
             ),
-            // You can add more user information fields/icons here
+            // Additional user information fields/icons can be added here
           ],
         ),
       ),
@@ -127,22 +129,3 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
