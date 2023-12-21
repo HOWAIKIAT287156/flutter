@@ -141,7 +141,9 @@ Widget buildFooter() {
           Expanded(
             child: TextButton(
               onPressed: () {
-                // Place Order functionality
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("This feature is unavailable yet. Stay tuned!"))
+                );
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15), // Add padding for larger button

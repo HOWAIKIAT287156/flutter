@@ -15,7 +15,8 @@ if (isset($_GET['pageno'])){
 $page_first_result = ($pageno - 1) * $results_per_page;
 
 //step 4
-$sqlloadbooks = "SELECT * FROM `tbl_books` WHERE `book_title` OR `book_author` LIKE '%$title%'";
+$sqlloadbooks = "SELECT * FROM `tbl_books` WHERE `book_title` LIKE '%$title%' OR `book_author` LIKE '%$title%'";
+
 $result = $conn->query($sqlloadbooks);
 $number_of_result = $result->num_rows;
 $number_of_page = ceil($number_of_result / $results_per_page);
