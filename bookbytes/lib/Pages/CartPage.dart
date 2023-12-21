@@ -10,6 +10,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.blueGrey),
         title: Text('Shopping Cart',
         style: TextStyle(color: Colors.blueGrey),
         ),

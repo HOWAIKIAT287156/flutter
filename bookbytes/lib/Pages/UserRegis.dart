@@ -40,6 +40,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.blueGrey),
         title: Text(
           'Registration Details',
           style: TextStyle(color: Colors.blueGrey),

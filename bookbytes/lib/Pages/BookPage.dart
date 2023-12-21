@@ -1,3 +1,4 @@
+import 'package:bookbytes/Pages/UserLogin.dart';
 import 'package:bookbytes/models/book.dart';
 import 'package:bookbytes/models/user.dart';
 import 'package:bookbytes/shared/ServerConfig.dart';
@@ -27,7 +28,9 @@ class _BookPageState extends State<BookPage> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.book.bookTitle.toString()),
+        iconTheme: IconThemeData(color: Colors.blueGrey),
+        backgroundColor: Color.fromRGBO(200, 242, 255, 1), // Set the background color
+        title: Text(widget.book.bookTitle.toString(),style: TextStyle(color: Colors.blueGrey),),
       ),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -77,6 +80,80 @@ class _BookPageState extends State<BookPage> {
             ]),
           ),
         ]),
+      ),
+      bottomNavigationBar: buildFooter(), // Add the footer here
+    );
+  }
+Widget buildFooter() {
+    return BottomAppBar(
+      color: Color.fromRGBO(200, 242, 255, 1),
+      height: 70,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+              // Verify user before adding to cart
+              if (widget.user.useremail == "guest@gmail.com" && widget.user.username == "Guest") {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Login Required'),
+                      content: Text('Please log in to add items to your cart.'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Login'),
+                          onPressed: () {
+                            // Navigate to UserLoginPage
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserLoginPage()));
+                          },
+                        ),
+                        TextButton(
+                          child: Text('No, thanks'),
+                          onPressed: () {
+                            // Close the dialog
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                // Add to Cart functionality
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Added Successfully! Go to your Cart to place order!!!"))
+                );
+              }
+            },
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15), // Add padding for larger button
+                child: Text(
+                  'Add to Cart',
+                  style: TextStyle(color: Colors.white, fontSize: 20), // Larger text
+                ),
+              ),
+              style: TextButton.styleFrom(backgroundColor: Colors.blue),
+            ),
+          ),
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                // Place Order functionality
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15), // Add padding for larger button
+                child: Text(
+                  'Place Order',
+                  style: TextStyle(color: Colors.white, fontSize: 20), // Larger text
+                ),
+              ),
+              style: TextButton.styleFrom(backgroundColor: Color.fromARGB(255, 204, 51, 54)),
+            ),
+          ),
+        ],
       ),
     );
   }

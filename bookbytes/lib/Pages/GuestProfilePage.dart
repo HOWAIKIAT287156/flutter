@@ -21,6 +21,7 @@ class _GuestProfilePageState extends State<GuestProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.blueGrey),
         title: Text('User Profile',
         style: TextStyle(color: Colors.blueGrey),
         ),

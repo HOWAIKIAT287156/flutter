@@ -23,7 +23,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
     List<Book> bookList = <Book>[];
-      final TextEditingController search = TextEditingController();
+      final TextEditingController searchController = TextEditingController();
 
       late double screenWidth, screenHeight;
       int numofpage = 1;
@@ -53,37 +53,62 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(200, 242, 255, 1),
-        title: Container(
-          height: 40,
-          width: 240,
-          decoration: BoxDecoration(
-            color: Colors.white, // Solid color for the search bar
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Center(
-            child: TextField(
-              controller: search,
-              decoration: InputDecoration(
-                hintText: 'Search Book...',
-                prefixIcon: Icon(Icons.search),
-                border: InputBorder.none,
+        backgroundColor: Color.fromRGBO(200, 242, 255, 1), // AppBar color
+        iconTheme: IconThemeData(color: Colors.blueGrey),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start, // Align to the start
+          children: [
+            // Adjusted width for shorter search bar
+            Container(
+              width: 220.0, // Adjust width as needed
+              height: 40.0, // Adjust height as needed
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: searchController, // Using a TextEditingController
+                      decoration: InputDecoration(
+                        hintText: "Search",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(left: 16.0, bottom: 8.0), // Adjust for vertical centering
+                      ),
+                      style: TextStyle(height: 1.5), // Adjust for vertical centering
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      loadBooks(searchController.text);
+                    },
+                  ),
+                ],
               ),
             ),
-          ),
+          ],
         ),
       ),
+
+
       drawer: AppDrawer(
         page: "books",
         userdata: widget.userdata,
       ),
       body: bookList.isEmpty
           ? const Center(child: Text("No Data"))
-          : Column(
+          : RefreshIndicator(
+                onRefresh: () async {
+                  searchController.text = "";
+                  loadBooks(title);
+                },
+          child: Column(
               children: [
                 Container(
                   alignment: Alignment.center,
-                  child: Text("Page $curpage/$numofresult"),
+                  child: Text("Book List Page $curpage/$numofpage"),
                 ),
                 Expanded(
                   child: GridView.count(
@@ -168,6 +193,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ],
             ),
+        ),
     );
   }
 
@@ -205,7 +231,6 @@ class _MainPageState extends State<MainPage> {
       setState(() {});
     });
   }
-  
 }
 
 

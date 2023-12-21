@@ -28,6 +28,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.blueGrey),
         title: Text(
           'Login',
           style: TextStyle(color: Colors.blueGrey),
