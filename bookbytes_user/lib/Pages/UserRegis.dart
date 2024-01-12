@@ -8,6 +8,8 @@ import 'dart:convert';
 import 'UserLogin.dart';
 
 class UserRegistrationPage extends StatefulWidget {
+  const UserRegistrationPage({super.key});
+
   @override
   _UserRegistrationPageState createState() => _UserRegistrationPageState();
 }
@@ -20,6 +22,7 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
   late TextEditingController _emailController = TextEditingController();
   late TextEditingController _contactController = TextEditingController();
   late TextEditingController _usernameController = TextEditingController();
+  late TextEditingController _addressController = TextEditingController();
 
   @override
   void initState() {
@@ -119,6 +122,17 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
                 obscureText: true,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(30), // Limit to 30 characters
+                ],
+              ),
+              TextField(
+                controller: _addressController,
+                style: TextStyle(fontSize: 15.0, color: Colors.black),
+                decoration: InputDecoration(
+                  labelText: 'Address',
+                  labelStyle: TextStyle(fontSize: 15.0, color: Colors.blueGrey),
+                ),
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(100), // Limit to 100 characters
                 ],
               ),
               SizedBox(height: 10.0),
@@ -271,41 +285,32 @@ class _UserRegistrationPageState extends State<UserRegistrationPage> {
     String _username = _usernameController.text;
     String _password = _passwordController.text;
     String _confirmpassword = _confirmPasswordController.text;
+    String _address = _addressController.text;
 
     // Validate user data
-    if (_email.isEmpty) {
-    _showErrorMessage('Email is required.');
-    return;
-  } else if (_contact.isEmpty) {
-    _showErrorMessage('Contact is required.');
-    return;
-  } else if (_username.isEmpty) {
-    _showErrorMessage('Username is required.');
-    return;
-  } else if (_password.isEmpty) {
-    _showErrorMessage('Password is required.');
-    return;
-  } else if (_confirmpassword.isEmpty) {
-    _showErrorMessage('Password is required.');
-    return;
-  }else if (!_isValidEmailFormat()) {
-    _showErrorMessage('Please enter a valid email.');
-    return;
-  } else if (!_isPasswordConfirmed()) {
-    _showErrorMessage('Confirm password does not match.');
-    return;
-  } else if (!_termsAndConditionsAccepted) {
-    _showErrorMessage('You must accept the terms and conditions to register.');
-    return;
-  }
+    if (_email.isEmpty || _contact.isEmpty || _username.isEmpty ||
+        _password.isEmpty || _confirmpassword.isEmpty || _address.isEmpty) {
+      _showErrorMessage('All fields are required.');
+      return;
+    } else if (!_isValidEmailFormat()) {
+      _showErrorMessage('Please enter a valid email.');
+      return;
+    } else if (!_isPasswordConfirmed()) {
+      _showErrorMessage('Confirm password does not match.');
+      return;
+    } else if (!_termsAndConditionsAccepted) {
+      _showErrorMessage('You must accept the terms and conditions to register.');
+      return;
+    }
 
     http.post(
-    Uri.parse('${ServerConfig.server}/bookbytes/php/sellerregister.php'), 
+    Uri.parse('${ServerConfig.server}/bookbytes/php/buyerregister.php'), 
     body: {
       'email': _email,
       'contact': _contact,
       'username': _username,
       'password': _password,
+      'address': _address,
     },).then((response) {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
