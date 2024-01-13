@@ -140,16 +140,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
               MaterialPageRoute(builder: (content) =>  MainPage(userdata:widget.userdata)));
               },
             ),
-            IconButton(
-              icon: Icon(Icons.shopping_cart),
-              iconSize: 50.0,
-              onPressed: () {
-                Navigator.push(
-                       context,
-                       MaterialPageRoute(builder: (context) => CartPage(userdata:widget.userdata)),
-                       );
-              },
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.shopping_cart),
+            //   iconSize: 50.0,
+            //   onPressed: () {
+            //     Navigator.push(
+            //            context,
+            //            MaterialPageRoute(builder: (context) => CartPage(userdata:widget.userdata)),
+            //            );
+            //   },
+            // ),
             IconButton(
               icon: Icon(Icons.person),
               color: Colors.grey,

@@ -103,57 +103,78 @@ Widget buildFooter() {
           Expanded(
             child: TextButton(
               onPressed: () {
-              // Verify user before adding to cart
-              if (widget.user.useremail == "guest@gmail.com" && widget.user.username == "Guest") {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Login Required'),
-                      content: Text('Please log in to add items to your cart.'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text('Login'),
-                          onPressed: () {
-                            // Navigate to UserLoginPage
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserLoginPage()));
-                          },
-                        ),
-                        TextButton(
-                          child: Text('No, thanks'),
-                          onPressed: () {
-                            // Close the dialog
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
+                if (widget.book.bookQty != "0"){
+                  // Verify user before adding to cart
+                  if (widget.user.useremail == "guest@gmail.com" && widget.user.username == "Guest") {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Login Required'),
+                          content: Text('Please log in to add items to your cart.'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Login'),
+                              onPressed: () {
+                                // Navigate to UserLoginPage
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserLoginPage()));
+                              },
+                            ),
+                            TextButton(
+                              child: Text('No, thanks'),
+                              onPressed: () {
+                                // Close the dialog
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     );
-                  },
-                );
-              } else if(bookowner == true){
-                 showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Notification'),
-                        content: Text("Book owner doesn't have to add into cart."),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              // Close the dialog
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
+                  } else if(bookowner == true){
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Notification'),
+                            content: Text("Book owner doesn't have to add into cart."),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  // Close the dialog
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       );
-                    },
-                  );
+                    }
+                  
+                  else {
+                    insertCartDialog();
+                  }
+
+                }else {
+                  showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Notification'),
+                            content: Text("This book is temporarily unavailable.Please wait for owner to restock."),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                 }
-              
-              else {
-                insertCartDialog();
-              }
             },
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15), // Add padding for larger button
