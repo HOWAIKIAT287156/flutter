@@ -2,6 +2,7 @@ import 'package:bookbytes/Pages/UserLogin.dart';
 import 'package:bookbytes/models/book.dart';
 import 'package:bookbytes/models/user.dart';
 import 'package:bookbytes/shared/ServerConfig.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -209,50 +210,120 @@ Widget buildFooter() {
   }
 
   void insertCartDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          title: const Text(
-            "Insert to cart?",
-            style: TextStyle(),
-          ),
-          content: const Text("Are you sure?", style: TextStyle()),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(
-                "Yes",
-                style: TextStyle(),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                insertCart();
-              },
-            ),
-            TextButton(
-              child: const Text(
-                "No",
-                style: TextStyle(),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  TextEditingController quantityController = TextEditingController();
+  String errorMessage = '';
 
-  void insertCart() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        title: Text(
+          "How many would you like to add to cart? Maximum ${widget.book.bookQty}",
+          style: TextStyle(),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                controller: quantityController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d{1,5}$')),
+                ],
+                decoration: InputDecoration(
+                  labelText: 'Quantity',
+                ),
+              ),
+              if (errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              "Add to Cart",
+              style: TextStyle(),
+            ),
+            onPressed: () {
+              String bookqty = widget.book.bookQty.toString();
+              int booknum = int.parse(bookqty);
+              int quantity = int.tryParse(quantityController.text) ?? 0;
+
+              if (quantity > 0 && quantity <= booknum) {
+                Navigator.of(context).pop();
+                insertCart(quantity);
+              } else if (quantity == 0) {
+                errorMessage = "Please enter a quantity greater than 0.";
+                showErrorMessage(context, errorMessage);
+              } else if (quantity > booknum) {
+                errorMessage = "Quantity exceeds available stock.";
+                showErrorMessage(context, errorMessage);
+              } else {
+                errorMessage = "Invalid quantity. Please try again.";
+                showErrorMessage(context, errorMessage);
+              }
+            },
+          ),
+          TextButton(
+            child: const Text(
+              "Cancel",
+              style: TextStyle(),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showErrorMessage(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+        title: Text("Error"),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+
+  void insertCart(int quantity) {
+    
     http.post(
         Uri.parse("${ServerConfig.server}/bookbytes/php/addCart.php"),
         body: {
           "buyer_id": widget.user.userid.toString(),
           "seller_id": widget.book.userId.toString(),
           "book_id": widget.book.bookId.toString(),
+          "quantity": quantity.toString()
         }).then((response) {
       log(response.body);
         if (response.statusCode == 200) {
@@ -265,7 +336,7 @@ Widget buildFooter() {
               ));
             } else {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Failed to add! Try again later!"),
+                content: Text("Failed to add! Your quantity has exceeded the book quantity including your cart!"),
                 backgroundColor: Colors.red,
               ));
             }
