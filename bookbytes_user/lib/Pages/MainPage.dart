@@ -91,7 +91,6 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
           actions: [
-            // Add the cart icon button to the right side of the AppBar
             IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {

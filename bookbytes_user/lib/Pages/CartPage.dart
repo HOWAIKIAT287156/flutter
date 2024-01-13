@@ -229,7 +229,6 @@ class _CartPageState extends State<CartPage> {
           data['data']['carts'].forEach((v) {
             cartList.add(Cart.fromJson(v));
 
-            // Parse the values before performing arithmetic operations
             double bookPrice = double.tryParse(v['book_price']) ?? 0.0;
             int cartQty = int.tryParse(v['cart_qty']) ?? 0;
 
