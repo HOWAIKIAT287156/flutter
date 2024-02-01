@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bookbytes/Pages/PaymentPage.dart';
 import 'package:bookbytes/models/cart.dart';
 import 'package:bookbytes/models/user.dart';
 import 'package:bookbytes/shared/ServerConfig.dart';
@@ -196,8 +197,16 @@ class _CartPageState extends State<CartPage> {
                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            // Implement logic for the "Pay Now" button
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PaymentPage(
+                                  userdata: widget.userdata,
+                                  totalprice: total,
+                                ),
+                              ),
+                            );
                           },
                           child: const Text("Pay Now"),
                         ),

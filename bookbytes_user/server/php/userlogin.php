@@ -22,6 +22,7 @@ if ($result->num_rows > 0) {
         $userlist['username'] = $row['username'];
         $userlist['userpassword'] = $_POST['password'];
         $userlist['userdate'] = $row['date'];
+        $userlist['useraddress'] = $row['address'];
     }
     $response = array('status' => 'success', 'data' => $userlist);
     sendJsonResponse($response);
