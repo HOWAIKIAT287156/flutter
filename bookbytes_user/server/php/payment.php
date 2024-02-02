@@ -266,12 +266,16 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const userId = urlParams.get('userid');
                 const totalPrice = urlParams.get('totalprice');
+                const userEmail = urlParams.get('useremail');
+                const userName = urlParams.get('username');
+                const userContact = urlParams.get('usercontact');
+
                 
                 // Construct the URL for order.php with the user ID and total price as query parameters
-                const orderUrl = `order.php?userid=${userId}&totalprice=${totalPrice}`;
+                const paymentUrl = `payment2.php?userid=${userId}&totalprice=${totalPrice}&useremail=${userEmail}&username=${userName}&usercontact=${userContact}`;
 
                 // Redirect the user to order.php
-                window.location.href = orderUrl;
+                window.location.href = paymentUrl;
             }
         }
     </script>

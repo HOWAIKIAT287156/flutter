@@ -40,18 +40,6 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Payment'),
-//       ),
-//       body: WebView(
-//         initialUrl: "${ServerConfig.server}/bookbytes/php/payment.php?totalprice=${widget.totalprice}&userid=${widget.userdata.userid}",
-//         javascriptMode: JavascriptMode.unrestricted,
-//       ),
-//     );
-//   }
-// }
+
 
 

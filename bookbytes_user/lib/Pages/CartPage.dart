@@ -245,10 +245,7 @@ class _CartPageState extends State<CartPage> {
             totalQuantity += cartQty;
           });
           setState(() {});
-        } else {
-          Navigator.of(context).pop();
-          //if no status failed
-        }
+        } 
       }
     }).timeout(const Duration(seconds: 5), onTimeout: () {
       print("Timeout");
