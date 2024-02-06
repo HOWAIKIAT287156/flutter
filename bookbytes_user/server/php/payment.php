@@ -58,12 +58,12 @@
         }
 
         .button img {
-            max-width: 100px;
-            max-height: 100px;
+            max-width: 200px;
+            max-height: 200px;
         }
 
         .button p {
-            margin-top: 120px; /* Add space between image and text */
+            margin-top: 60px; /* Add space between image and text */
         }
 
         .accept {
@@ -159,39 +159,39 @@
 
     <div class="button-container">
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 1">
+            <img src="images\bank.jpg" alt="Image 1">
             <p>Bank 1</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 2">
+            <img src="images\bank.jpg" alt="Image 2">
             <p>Bank 2</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 1">
+            <img src="images\bank.jpg" alt="Image 3">
             <p>Bank 3</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 2">
+            <img src="images\bank.jpg" alt="Image 4">
             <p>Bank 4</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 1">
+            <img src="images\bank.jpg" alt="Image 5">
             <p>Bank 5</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 2">
+            <img src="images\bank.jpg" alt="Image 6">
             <p>Bank 6</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 1">
+            <img src="images\bank.jpg" alt="Image 7">
             <p>Bank 7</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 2">
+            <img src="images\bank.jpg" alt="Image 8">
             <p>Bank 8</p>
         </div>
         <div class="button" onclick="toggleButton(this)">
-            <img src="" alt="Image 1">
+            <img src="images\bank.jpg" alt="Image 9">
             <p>Bank 9</p>
         </div>
         

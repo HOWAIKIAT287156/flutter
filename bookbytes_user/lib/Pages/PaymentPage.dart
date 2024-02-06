@@ -31,7 +31,14 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.blueGrey),
+        title: Text(
+          'Payment Page',
+          style: TextStyle(color: Colors.blueGrey),
+        ),
+        backgroundColor: Color.fromRGBO(200, 242, 255, 1),
+      ),
       body: Center(
         child: WebViewWidget(
           controller: controller,
